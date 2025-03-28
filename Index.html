@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #b3b3b3;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #A18cd0;
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        #clock {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        main {
+            margin-top: 80px;
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+        }
+
+        input, select {
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #A13F97;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: #32b050;
+        }
+
+        #product-list {
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f2f2f2;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Produtos</h1>
+        <div id="clock"></div> <!-- Exibição do horário de Brasília -->
+    </header>
+    
+    <main>
+        <form id="product-form">
+            <label for="product-name">Nome do Produto:</label>
+            <input type="text" id="product-name" name="product-name" required><br>
+
+            <label for="product-type">Tipo de Produto:</label>
+            <select id="product-type" name="product-type" required>
+                <option value="roupa">Roupa</option>
+                <option value="sapato">Sapato</option>
+                <option value="móvel">Móvel</option>
+                <option value="automóvel">Automóvel</option>
+                <option value="eletrônico">Eletrônico</option>
+            </select><br>
+
+            <label for="product-price">Preço:</label>
+            <input type="number" id="product-price" name="product-price" required><br>
+
+            <button type="submit">Cadastrar Produto</button>
+        </form>
+
+        <div id="product-list">
+            <h2>Produtos Cadastrados</h2>
+            <ul id="products"></ul>
+        </div>
+    </main>
+
+    <script>
+        // Função para exibir o horário de Brasília
+        function updateClock() {
+            const options = { timeZone: 'America/Sao_Paulo', hour12: true };
+            const currentDate = new Date().toLocaleString('pt-BR', options);
+            document.getElementById('clock').textContent = 'Horário de Brasília: ' + currentDate;
+        }
+
+        // Atualizar o relógio a cada 1 segundo
+        setInterval(updateClock, 1000);
+        
+        // Função para adicionar o produto na lista
+        const productForm = document.getElementById('product-form');
+        const productList = document.getElementById('products');
+
+        productForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio do formulário e recarregamento da página
+
+            const productName = document.getElementById('product-name').value;
+            const productType = document.getElementById('product-type').value;
+            const productPrice = document.getElementById('product-price').value;
+
+            // Criando o item de produto
+            const li = document.createElement('li');
+            li.textContent = `${productName} - ${productType} - R$ ${parseFloat(productPrice).toFixed(2)}`;
+            
+            // Adicionando o produto à lista
+            productList.appendChild(li);
+
+            // Limpar os campos do formulário
+            productForm.reset();
+        });
+    </script>
+</body>
+</html>
